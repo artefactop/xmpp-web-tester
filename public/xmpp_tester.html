@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="http://upptalk.com/static/im/favicon.png" type="image/png">
+    <title>XMPP tester</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://demo.stanleyhlng.com/prettify-js/assets/themes/bootstrap-light/prettify.css">
+    <style>
+    body { padding-top: 70px; }
+    .stanzaOut { color: green; }
+    .stanzaIn { color: darkorange; }
+    .navbar-center
+    {
+      position: absolute;
+      width: 100%;
+      left: 0;
+      top: 20%;
+      text-align: center;
+      margin: auto;
+      height:100%;
+    }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+    <script src='strophe.js'></script>
+    <script src='strophe.ping.js'></script>
+    <script src='strophe.receipts.js'></script>
+    <script src='strophe.jingle.js'></script><!-- strophe jingle connection plugin -->
+    <script src='strophe.jingle.session.js'></script><!-- strophe jingle connection plugin -->
+    <script src='strophe.jingle.sdp.js'></script><!-- sdp library -->
+    <script src='strophe.jingle.adapter.js'></script><!-- getusermedia cross browser compat layer -->
+    <script src='xmpp_tester.js'></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">XMPP tester</a>
+        </div>
+        <form class="navbar-form navbar-center" role="search">
+          <div class="form-group">
+            <input type='text' class="form-control" id='jid' placeholder="Username" />
+            <label for='jid'>@<span class="domain">domain</span></label>
+            <input type='password' class="form-control" id='pass' placeholder="Password"/>
+          </div>
+          <input class="btn btn-default" type='button' id='connect' value='Connect' />
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+      <form class="form-inline" name='sendRawForm'>
+        <div class="form-group">
+          <textarea type='text' class="form-control" id='raw' style="height:200px; width:800px; overflow:auto;" placeholder="write custom stanza" ></textarea>
+        </div>
+        <input class="btn btn-default" type='button' id='sendRaw' value='SEND' />
+      </form>
+      <form class="form-inline" name='sendMessageForm'>
+        <div class="form-group">
+          <input type='text'class="form-control" id='messageUser' placeholder="Username" />
+          <label for='messageUser'>@<span class="domain">domain</span></label>
+          <input type='text' class="form-control" id='message' style="width:400px;" placeholder="Write a Message" />
+          <input class="btn btn-default" type='button' id='sendMessage' value='SEND MESSAGE' />
+        </div>
+      </form>
+      <form class="form-inline" name='makeCallForm'>
+        <div class="form-group">
+          <input type='text'class="form-control" id='callingUser' placeholder="Username" />
+          <label for='callingUser'>@<span class="domain">domain</span></label>
+          <input class="btn btn-default" type='button' id='makeCall' value='CALL' />
+        </div>
+      </form>
+      <form class="form-inline" name='ping'>
+        <div class="form-group">
+          <input type='text' class="form-control" id='pingjid' placeholder="JID" />
+        </div>
+        <input class="btn btn-default" type='button' id='ping' value='PING' />
+      </form>
+      <hr>
+      <div id='log' style="height:400px; overflow:auto; outline: 1px solid #ccc; padding: 5px; margin: 5px; "></div>
+    </div>
+  </body>
+</html>
