@@ -1,5 +1,7 @@
-var BOSH_SERVICE = null;
-var XMPP_DOMAIN = null;
+//var WS_SERVICE = 'ws://52.16.182.136:5280/ws-xmpp';
+//var XMPP_DOMAIN = 'xmpp.wallapop.com';
+var WS_SERVICE = 'ws://192.168.99.100:5280/ws-xmpp';
+var XMPP_DOMAIN = 'localhost';
 var connection = null;
 var ice_config = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]},
     RTC = null,
@@ -86,10 +88,16 @@ function onMessage(msg) {
 
 	log('ECHOBOT: I got a message from ' + from + ': ' + 
 		Strophe.getText(body));
+	var text = Strophe.getText(body) + '(this is an echo)';
 	
 	var reply = $msg({to: from, from: to, type: 'chat', 
-		id: connection.getUniqueId('tester')})
-			.cnode(Strophe.copyElement(body));
+		id: connection.getUniqueId('tester')}).c('body', {}, text).up();
+
+	elems = msg.getElementsByTagName('thread');
+	if (elems.length > 0) {
+		log(Strophe.copyElement(elems[0]))
+		reply.c('thread', {}, Strophe.getText(Strophe.copyElement(elems[0])));
+	}
 	connection.send(reply.tree());
 
 	log('ECHOBOT: I sent ' + from + ': ' + Strophe.getText(body));
@@ -170,7 +178,8 @@ function onCallIncoming(event, sid) {
 
 $(document).ready(function () {
     RTC = setupRTC();
-	connection = new Strophe.Connection(BOSH_SERVICE);
+	//Strophe.SASLPlain.prototype = new Strophe.SASLMechanism("PLAIN", false, 100);
+	connection = new Strophe.Connection(WS_SERVICE);
 
 	// Uncomment the following lines to spy on the wire traffic.
 	connection.rawInput = function (data) { 
